@@ -6,11 +6,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/app/components/ui/label';
 import { FileText, CheckCircle, TrendingUp, MapPin } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie } from 'recharts';
-
+//
 /* ======================================================
    Componente Gráfico de Barras con Logos seguro
 ====================================================== */
-const BarChartWithLogos = ({ data }: { data: any[] }) => {
+/*const BarChartWithLogos = ({ data }: { data: any[] }) => {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +26,7 @@ const BarChartWithLogos = ({ data }: { data: any[] }) => {
   return (
     <div ref={containerRef} className="relative w-full min-h-[400px] h-[500px]">
       {/* Logos arriba */}
-      <div className="absolute top-0 left-0 w-full flex justify-around z-10 pointer-events-none">
+    /*  <div className="absolute top-0 left-0 w-full flex justify-around z-10 pointer-events-none">
         {data.map(c => (
           <div key={c.numero} className="flex flex-col items-center" style={{ width: `${100 / data.length}%` }}>
             {c.logo && <img src={c.logo} alt={c.nombre} className="w-10 h-10 object-contain mb-1" />}
@@ -52,7 +52,7 @@ const BarChartWithLogos = ({ data }: { data: any[] }) => {
       )}
     </div>
   );
-};
+};//
 
 /* ======================================================
    Dashboard Principal
