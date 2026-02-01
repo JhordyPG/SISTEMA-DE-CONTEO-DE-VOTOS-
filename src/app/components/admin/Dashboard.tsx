@@ -7,94 +7,80 @@ import { Label } from '@/app/components/ui/label';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Layer } from 'recharts';
 import { FileText, CheckCircle, TrendingUp, MapPin } from 'lucide-react';
 
-// Componente para renderizar logos y votos en el gráfico
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
+import { FileText, CheckCircle, TrendingUp, MapPin } from 'lucide-react';
+
+/* ======================================================
+   CHART SEGURO PARA MOBILE + DESKTOP (CON LOGOS)
+====================================================== */
 const BarChartWithLogos = ({ data }: { data: any[] }) => {
-  const [chartState, setChartState] = React.useState<any>(null);
+  if (!data || data.length === 0) {
+    return <p className="text-center text-slate-500 py-10">Sin datos</p>;
+  }
 
   return (
-    <ResponsiveContainer width="100%" height={500}>
-      <BarChart 
-        data={data} 
-        margin={{ top: 80, right: 30, left: 0, bottom: 60 }}
-        onMouseMove={(state: any) => setChartState(state)}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-        <XAxis 
-          dataKey="partido" 
-          stroke="#64748B"
-          angle={-45}
-          textAnchor="end"
-          height={100}
-        />
-        <YAxis stroke="#64748B" />
-        <Tooltip 
-          contentStyle={{ backgroundColor: '#FFF', border: '1px solid #E2E8F0', borderRadius: '8px' }}
-          formatter={(value: number) => {
-            return [`${value} votos`, 'Votos'];
-          }}
-          labelFormatter={(label) => `${label}`}
-          cursor={{ fill: 'rgba(0,0,0,0.05)' }}
-        />
-        <Legend wrapperStyle={{ display: 'none' }} />
-        <Bar 
-          dataKey="votos" 
-          name="Votos" 
-          radius={[8, 8, 0, 0]}
-          isAnimationActive={true}
-          animationDuration={600}
-          shape={(props: any) => {
-            const { fill, x, y, width, height, payload } = props;
-            const candidato = data.find((c: any) => c.numero === payload?.numero);
-            
-            return (
-              <g>
-                {/* Barra */}
-                <rect 
-                  x={x} 
-                  y={y} 
-                  width={width} 
-                  height={height} 
-                  fill={fill} 
-                  rx={8} 
-                  ry={8}
-                />
-                {/* Votos en el centro */}
-                <text
-                  x={x + width / 2}
-                  y={y + height / 2}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fill="white"
-                  fontSize="14"
-                  fontWeight="bold"
-                  pointerEvents="none"
-                >
-                  {payload?.votos || 0}
-                </text>
-                {/* Logo encima */}
-                {candidato?.logo && (
-                  <image
-                    x={x + width / 2 - 25}
-                    y={y - 60}
-                    width={50}
-                    height={50}
-                    href={candidato.logo}
-                    preserveAspectRatio="xMidYMid meet"
-                    style={{ borderRadius: '4px' }}
-                  />
-                )}
-              </g>
-            );
-          }}
+    <div className="relative w-full h-[500px]">
+      {/* LOGOS (HTML, NO SVG) */}
+      <div className="absolute top-0 left-0 w-full flex justify-around z-10 pointer-events-none">
+        {data.map((c) => (
+          <div
+            key={c.numero}
+            className="flex flex-col items-center"
+            style={{ width: `${100 / data.length}%` }}
+          >
+            {c.logo && (
+              <img
+                src={c.logo}
+                alt={c.nombre}
+                className="w-10 h-10 object-contain mb-1"
+              />
+            )}
+            <span className="text-xs font-semibold text-slate-600">
+              {c.numero}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* CHART */}
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          margin={{ top: 80, right: 20, left: 0, bottom: 60 }}
         >
-          {data.map((entry: any, index: number) => (
-            <Cell key={`cell-${index}`} fill={entry.color || '#94A3B8'} />
-          ))}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="partido"
+            angle={-45}
+            textAnchor="end"
+            height={80}
+          />
+          <YAxis />
+          <Tooltip formatter={(v: number) => [`${v} votos`, 'Votos']} />
+          <Bar
+            dataKey="votos"
+            radius={[8, 8, 0, 0]}
+            isAnimationActive={false} // 🔑 CLAVE
+          >
+            {data.map((entry, i) => (
+              <Cell key={i} fill={entry.color || '#94A3B8'} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
+
 
 export function Dashboard() {
   try {
