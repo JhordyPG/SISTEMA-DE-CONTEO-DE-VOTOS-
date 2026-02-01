@@ -5,12 +5,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/ta
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
 import { Label } from '@/app/components/ui/label';
 import { FileText, CheckCircle, TrendingUp, MapPin } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie } from 'recharts';
-//
+/* import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie } from 'recharts'; */
+
 /* ======================================================
    Componente Gráfico de Barras con Logos seguro
+   (COMENTADO)
 ====================================================== */
-/*const BarChartWithLogos = ({ data }: { data: any[] }) => {
+/*
+const BarChartWithLogos = ({ data }: { data: any[] }) => {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,8 +27,8 @@ import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, 
 
   return (
     <div ref={containerRef} className="relative w-full min-h-[400px] h-[500px]">
-      {/* Logos arriba */}
-    /*  <div className="absolute top-0 left-0 w-full flex justify-around z-10 pointer-events-none">
+      Logos arriba
+      <div className="absolute top-0 left-0 w-full flex justify-around z-10 pointer-events-none">
         {data.map(c => (
           <div key={c.numero} className="flex flex-col items-center" style={{ width: `${100 / data.length}%` }}>
             {c.logo && <img src={c.logo} alt={c.nombre} className="w-10 h-10 object-contain mb-1" />}
@@ -52,7 +54,8 @@ import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, 
       )}
     </div>
   );
-};//
+};
+*/
 
 /* ======================================================
    Dashboard Principal
@@ -125,7 +128,8 @@ export function Dashboard() {
     const sumaTotal = totalVotos + totalVotosEspeciales;
     const porcentajeValidez = sumaTotal > 0 ? ((totalVotos / sumaTotal) * 100).toFixed(1) : '0';
 
-    // Datos para gráficos
+    // Datos para gráficos (COMENTADOS)
+    /*
     const dataPie = votosPorCandidato.map(c => ({ name: `${c.numero}. ${c.nombre}`, value: c.votos }));
     const dataVotosEspeciales = [
       { name: 'Votos Válidos', value: totalVotos, fill: '#3B82F6' },
@@ -133,6 +137,7 @@ export function Dashboard() {
       { name: 'Votos Nulos', value: votosEspeciales.nulos, fill: '#F59E0B' },
       { name: 'Votos Impugnados', value: votosEspeciales.impugnados, fill: '#EF4444' },
     ];
+    */
 
     const distritosDisponibles = useMemo(() => {
       if (selectedProvincia === 'all') return [];
@@ -257,7 +262,10 @@ export function Dashboard() {
                 <p className="text-sm text-slate-600 mt-1">Los colores muestran los colores de referencia de cada candidato</p>
               </CardHeader>
               <CardContent>
+                {/* Gráfico comentado */}
+                {/*
                 <BarChartWithLogos data={votosPorCandidato} />
+                */}
               </CardContent>
             </Card>
 
@@ -310,16 +318,14 @@ export function Dashboard() {
                           <tr key={idx} className={`border-b border-slate-100 hover:brightness-95 transition-all ${idx<3?'bg-slate-50':''}`} style={{ borderLeftColor: color, borderLeftWidth: '4px' }}>
                             <td className="py-3 px-4 font-bold text-lg" style={{color}}>{getPos(idx)}</td>
                             <td className="py-3 px-4 text-center">
-                              {candidato.logo ? <img src={candidato.logo} alt={candidato.nombre} className="h-8 w-8 object-contain"/> : (
-                                <div className="h-8 w-8 bg-slate-200 rounded-full" />
-                              )}
+                              {candidato.logo ? <img src={candidato.logo} className="w-6 h-6 mx-auto object-contain" alt={candidato.nombre}/> : '-'}
                             </td>
                             <td className="py-3 px-4">{candidato.nombre}</td>
                             <td className="py-3 px-4">{candidato.partido}</td>
                             <td className="py-3 px-4 text-right">{candidato.votos}</td>
                             <td className="py-3 px-4 text-right">{porcentaje.toFixed(1)}%</td>
                           </tr>
-                        )
+                        );
                       })}
                     </tbody>
                   </table>
@@ -330,9 +336,7 @@ export function Dashboard() {
         </Tabs>
       </div>
     );
-
-  } catch (error) {
-    console.error('Error en Dashboard:', error);
-    return <p className="text-red-600">Ha ocurrido un error cargando el Dashboard.</p>;
+  } catch (err) {
+    return <p className="text-red-600 text-center p-10">Error al cargar el dashboard</p>;
   }
 }
