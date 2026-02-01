@@ -5,13 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/ta
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
 import { Label } from '@/app/components/ui/label';
 import { FileText, CheckCircle, TrendingUp, MapPin } from 'lucide-react';
-/* import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie } from 'recharts'; */
+import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie } from 'recharts'; 
 
 /* ======================================================
    Componente Gráfico de Barras con Logos seguro
    (COMENTADO)
 ====================================================== */
-/*
+
 const BarChartWithLogos = ({ data }: { data: any[] }) => {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,7 +129,7 @@ export function Dashboard() {
     const porcentajeValidez = sumaTotal > 0 ? ((totalVotos / sumaTotal) * 100).toFixed(1) : '0';
 
     // Datos para gráficos (COMENTADOS)
-    /*
+    
     const dataPie = votosPorCandidato.map(c => ({ name: `${c.numero}. ${c.nombre}`, value: c.votos }));
     const dataVotosEspeciales = [
       { name: 'Votos Válidos', value: totalVotos, fill: '#3B82F6' },
@@ -137,7 +137,7 @@ export function Dashboard() {
       { name: 'Votos Nulos', value: votosEspeciales.nulos, fill: '#F59E0B' },
       { name: 'Votos Impugnados', value: votosEspeciales.impugnados, fill: '#EF4444' },
     ];
-    */
+    
 
     const distritosDisponibles = useMemo(() => {
       if (selectedProvincia === 'all') return [];
@@ -263,9 +263,9 @@ export function Dashboard() {
               </CardHeader>
               <CardContent>
                 {/* Gráfico comentado */}
-                {/*
+                {
                 <BarChartWithLogos data={votosPorCandidato} />
-                */}
+                }
               </CardContent>
             </Card>
 
